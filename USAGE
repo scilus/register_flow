@@ -15,15 +15,15 @@ DESCRIPTION
                                                 ├── S1
                                                 │   │── *t1.nii.gz (diff space)
                                                 |   └── metrics (optional)
-                                                |   │   └── METRIC_NAME.nii.gz
+                                                |   │   └── *.nii.gz
                                                 |   └── tractograms (optional)
-                                                |       └── TRK_NAME.nii.gz
+                                                |       └── *.trks
                                                 └── S2
                                                     └── *
 
-    --linear                                    If set, it will use linear registration instead of non linear registration
-    --slow_registration                         If set, it will use antsRegistrationSyN instead of antsRegistrationSyNQuick for registration
-    --template                                  Template used for registration
+    --linear                                    If set, it will use linear registration instead of non linear registration.
+    --slow_registration                         If set, it will use antsRegistrationSyN instead of antsRegistrationSyNQuick for registration.
+    --template                                  Template used for registration.
 
 
 OPTIONAL ARGUMENTS (current value)
