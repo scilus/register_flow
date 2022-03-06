@@ -1,12 +1,13 @@
 toTemplate_flow pipeline
 =====================
 
-Register tractoflow output to template space.
+Register t1, metrics and tractograms to template space.
+We suggest to use https://github.com/scilus/combine_flows to create input.
 
 
 USAGE
 
-nextflow run main.nf [OPTIONAL_ARGUMENTS] --input --template --labels_list
+nextflow run main.nf [OPTIONAL_ARGUMENTS] --input --template
 
 DESCRIPTION
 
@@ -21,12 +22,13 @@ DESCRIPTION
                                                 └── S2
                                                     └── *
 
-    --linear                                    If set, it will use linear registration instead of non linear registration.
-    --slow_registration                         If set, it will use antsRegistrationSyN instead of antsRegistrationSyNQuick for registration.
     --template                                  Template used for registration.
 
-
 OPTIONAL ARGUMENTS (current value)
+    --linear                                    If set, it will use linear registration instead of non linear registration.
+
+    --slow_registration                         If set, it will use antsRegistrationSyN instead of antsRegistrationSyNQuick for registration.
+
     --output_dir                                Specify a new output directory to avoid overwriting results (when dealing with multiple input labels) ($output_dir)
 
     --processes_register                        Number of processes for registration task ($processes_register)
