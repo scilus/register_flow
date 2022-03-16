@@ -35,7 +35,7 @@ log.info ""
 
 log.info "[Inputs]"
 log.info "Root: $params.input"
-log.info "Template: $params.template"
+log.info "atlas: $params.atlas"
 log.info "Output directory: $params.output_dir"
 log.info ""
 
@@ -65,9 +65,7 @@ in_metrics = Channel
                    size: -1,
                    maxDepth:2) {it.parent.parent.name}
 
-subjects_for_count.count().set{number_subj_for_null_check}
-
-number_subj_for_null_check
+subjects_for_count.count()
 .subscribe{a -> if (a == 0)
     error "Error ~ No subjects found. Please check the naming convention, your --input path."}
 
@@ -93,7 +91,7 @@ process Register_T1_to_template {
 
     script:
     """
-      ${params.script} -d 3 -m ${anat} -f ${template} -n ${task.cpus} -o "${sid}__output" -t ${params.transfo}
+      ${params.script_registration} -d 3 -m ${anat} -f ${template} -n ${task.cpus} -o "${sid}__output" -t ${params.transfo}
     """
 }
 
@@ -144,7 +142,11 @@ process Linear_Registration_Metrics_to_template {
     script:
     if (params.linear)
       """
-      antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz
+      if [[ "$metric" == *"nufo"* ]];
+        antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz -n NearestNeighbor
+      else
+        antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz
+      fi
       """
 }
 
