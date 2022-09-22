@@ -4,7 +4,6 @@ register_flow pipeline
 Register t1, metrics and tractograms to template space.
 We suggest to use https://github.com/scilus/combine_flows to create input.
 
-
 USAGE
 
 nextflow run main.nf [OPTIONAL_ARGUMENTS] --input --template
@@ -14,7 +13,7 @@ DESCRIPTION
     --input=/path/to/[root]     Root folder containing multiple subjects
                                                 [root]
                                                 ├── S1
-                                                │   │── *t1.nii.gz (diff space)
+                                                │   │── *t1.nii.gz (orig space)
                                                 |   └── metrics (optional)
                                                 |   │   └── *.nii.gz
                                                 |   └── tractograms (optional)
@@ -25,13 +24,16 @@ DESCRIPTION
     --template=/path/to/[template]              Path to a nifti T1 template used for registration.
 
 OPTIONAL ARGUMENTS (current value)
-    --linear                                    If set, it will use linear registration instead of non linear registration.
+    --linear_registration                       If set, it will use linear registration instead of non linear registration ($linear_registration).
 
-    --slow_registration                         If set, it will use antsRegistrationSyN instead of antsRegistrationSyNQuick for registration.
+    --quick_registration                        If set, it will use antsRegistrationSyNQuick.sh instead of antsRegistrationSyNQuick.sh for registration ($quick_registration).
 
-    --output_dir                                Specify a new output directory to avoid overwriting results (when dealing with multiple input labels) ($output_dir)
+    --output_dir                                Specify a new output directory to avoid overwriting results (when dealing with multiple input labels) ($output_dir).
 
-    --processes_register                        Number of processes for registration task ($processes_register)
+    --processes_register                        Number of processes for registration task ($processes_register).
+
+    --processes                                 The number of parallel processes to launch ($cpu_count).
+                                                Only affects the local scheduler.
 
 AVAILABLE PROFILES (using -profile option (e.g. -profile fully_reproducible))
 

@@ -4,8 +4,8 @@ if(params.help) {
     usage = file("$baseDir/USAGE")
     cpu_count = Runtime.runtime.availableProcessors()
 
-    bindings = ["slow_registration":"$params.slow_registration",
-                "linear":"$params.linear",
+    bindings = ["quick_registration":"$params.quick_registration",
+                "linear_registration":"$params.linear_registration",
                 "output_dir":"$params.output_dir",
                 "processes_register":"$params.processes_register",
                 "cpu_count":"$cpu_count"]
@@ -114,7 +114,7 @@ process Get_T1_Template_Space{
 Channel.empty()
   .into{nonlinear_metrics_transformation_for_metrics; linear_metrics_transformation_for_metrics}
 
-if(params.linear){
+if(params.linear_registration){
   in_metrics
       .transpose()
       .combine(template_for_transformation_metrics)
@@ -140,7 +140,7 @@ process Linear_Registration_Metrics_to_template {
     file "*_to_template.nii.gz"
 
     script:
-    if (params.linear)
+    if (params.linear_registration)
       """
       if [[ "$metric" == *"nufo"* ]];
         antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz -n NearestNeighbor
@@ -169,7 +169,7 @@ process NonLinear_Registration_Metrics_to_template {
 Channel.empty()
   .into{linear_trks_transformation_for_trks; nonlinear_trks_transformation_for_trks}
 
-if(params.linear){
+if(params.linear_registration){
 in_trks
     .transpose()
     .combine(template_for_transformation_trks)
