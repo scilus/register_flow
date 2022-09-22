@@ -35,7 +35,7 @@ log.info ""
 
 log.info "[Inputs]"
 log.info "Root: $params.input"
-log.info "atlas: $params.atlas"
+log.info "Template: $params.template"
 log.info "Output directory: $params.output_dir"
 log.info ""
 

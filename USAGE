@@ -26,7 +26,7 @@ DESCRIPTION
 OPTIONAL ARGUMENTS (current value)
     --linear_registration                       If set, it will use linear registration instead of non linear registration ($linear_registration).
 
-    --quick_registration                        If set, it will use antsRegistrationSyNQuick.sh instead of antsRegistrationSyNQuick.sh for registration ($quick_registration).
+    --quick_registration                        If set, it will use antsRegistrationSyNQuick.sh instead of antsRegistrationSyN.sh for registration ($quick_registration).
 
     --output_dir                                Specify a new output directory to avoid overwriting results (when dealing with multiple input labels) ($output_dir).
 
