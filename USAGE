@@ -1,0 +1,57 @@
+register_flow pipeline
+=====================
+
+Register t1, metrics and tractograms to template space.
+We suggest to use https://github.com/scilus/combine_flows to create input.
+
+USAGE
+
+nextflow run main.nf [OPTIONAL_ARGUMENTS] --input --template
+
+DESCRIPTION
+
+    --input=/path/to/[root]     Root folder containing multiple subjects
+                                                [root]
+                                                ├── S1
+                                                │   │── *t1.nii.gz (orig space)
+                                                |   └── metrics (optional)
+                                                |   │   └── *.nii.gz
+                                                |   └── tractograms (optional)
+                                                |       └── *.trks
+                                                └── S2
+                                                    └── *
+
+    --template=/path/to/template_t1.nii.gz      Path to a nifti T1 template used for registration.
+                                                It has to be named template_t1.nii.gz
+
+OPTIONAL ARGUMENTS (current value)
+    --linear_registration                       If set, it will use linear registration instead of non linear registration ($linear_registration).
+
+    --quick_registration                        If set, it will use antsRegistrationSyNQuick.sh instead of antsRegistrationSyN.sh for registration ($quick_registration).
+
+    --output_dir                                Specify a new output directory to avoid overwriting results (when dealing with multiple input labels) ($output_dir).
+
+    --processes_register                        Number of processes for registration task ($processes_register).
+
+    --processes                                 The number of parallel processes to launch ($cpu_count).
+                                                Only affects the local scheduler.
+
+AVAILABLE PROFILES (using -profile option (e.g. -profile fully_reproducible))
+
+macos                                       When this profile is used, TractoFlow will modify a parameter (scratch) for MacOS users.
+
+fully_reproducible                          When this profile is used, all the parameters will be set to have 100% reproducible results.
+
+
+NOTES
+
+To set the number of parallel processes to launch, please use:
+'nextflow run -qs {nb_processes}'.
+
+The intermediate working directory is, by default, set to './work'.
+To change it, use the '-w WORK_DIR' argument.
+
+The default config file is connectoflow/nextflow.config.
+Use '-C config_file.config' to specify a non-default configuration file.
+The '-C config_file.config' must be inserted after the nextflow call
+like 'nextflow -C config_file.config run ...'.
