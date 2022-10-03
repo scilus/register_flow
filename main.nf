@@ -47,7 +47,7 @@ log.info ""
 root = file(params.input)
 /* Watch out, files are ordered alphabetically in channel */
 Channel
-    .fromPath("$root/**/t1.nii.gz",
+    .fromPath("$root/**/*t1.nii.gz",
                     maxDepth:1)
     .map{[it.parent.name, it]}
     .into{in_t1; subjects_for_count}
@@ -57,8 +57,11 @@ in_trks = Channel
                     size: -1,
                     maxDepth:2) {it.parent.parent.name}
 
+if (!params.template.contains("template_t1.nii.gz")) {
+    error "Error ~ Template filename should be named template_t1.nii.gz."}
+
 Channel.fromPath(file(params.template))
-    .into{template_for_registration;template_for_transformation_trks;template_for_transformation_metrics}
+    .into{template_for_registration;template_for_transformation_trks;template_for_transformation_metrics; template_check_name}
 
 in_metrics = Channel
     .fromFilePairs("$root/**/metrics/*.nii.gz",

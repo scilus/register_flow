@@ -21,7 +21,8 @@ DESCRIPTION
                                                 └── S2
                                                     └── *
 
-    --template=/path/to/[template]              Path to a nifti T1 template used for registration.
+    --template=/path/to/template_t1.nii.gz      Path to a nifti T1 template used for registration.
+                                                It has to be named template_t1.nii.gz
 
 OPTIONAL ARGUMENTS (current value)
     --linear_registration                       If set, it will use linear registration instead of non linear registration ($linear_registration).
