@@ -141,13 +141,13 @@ process Linear_Registration_Metrics_to_template {
 
     script:
     if (params.linear_registration)
-      """
-      if [[ "$metric" == *"nufo"* ]];
-        antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz -n NearestNeighbor
-      else
-        antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz
-      fi
-      """
+    """
+    if [[ "$metric" == *"nufo"* ]]; then
+      antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz -n NearestNeighbor
+    else
+      antsApplyTransforms -d 3 -i $metric -r $template -t $transfo -o ${metric.getSimpleName()}_to_template.nii.gz
+    fi
+    """
 }
 
 process NonLinear_Registration_Metrics_to_template {
