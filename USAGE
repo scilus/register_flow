@@ -25,6 +25,7 @@ DESCRIPTION
                                                 It has to be named template_t1.nii.gz
 
 OPTIONAL ARGUMENTS (current value)
+    --run_bet                                   Run bet(antsBrainExtraction) if your t1s are not brain extracted ($run_bet).
     --linear_registration                       If set, it will use linear registration instead of non linear registration ($linear_registration).
 
     --quick_registration                        If set, it will use antsRegistrationSyNQuick.sh instead of antsRegistrationSyN.sh for registration ($quick_registration).
