@@ -4,7 +4,8 @@ if(params.help) {
     usage = file("$baseDir/USAGE")
     cpu_count = Runtime.runtime.availableProcessors()
 
-    bindings = ["quick_registration":"$params.quick_registration",
+    bindings = ["run_bet":"$params.run_bet",
+                "quick_registration":"$params.quick_registration",
                 "linear_registration":"$params.linear_registration",
                 "output_dir":"$params.output_dir",
                 "processes_register":"$params.processes_register",
@@ -90,28 +91,28 @@ process Register_T1_to_template {
     output:
     set sid, "${sid}__output0GenericAffine.mat", "${sid}__output1Warp.nii.gz", "${sid}__output1InverseWarp.nii.gz" into nonlinear_transformation_for_trks, nonlinear_transformation_for_metrics optional true
     set sid, "${sid}__output0GenericAffine.mat" into linear_transformation_for_trks, linear_transformation_for_metrics optional true
-    set sid, "${sid}__outputWarped.nii.gz" into t1_to_template
+    set sid, "${sid}__t1_template_space.nii.gz" into t1_to_template
+    file "${sid}__t1_bet_mask.nii.gz" optional true
+    file "${sid}__t1_bet.nii.gz" optional true
 
     script:
+    if (params.run_bet){
+    """
+      antsBrainExtraction.sh -d 3 -a ${anat} -e $params.template_t1/t1_template.nii.gz\
+            -o bet/ -m $params.template_t1/t1_brain_probability_map.nii.gz -u 0
+        scil_image_math.py convert bet/BrainExtractionMask.nii.gz ${sid}__t1_bet_mask.nii.gz --data_type uint8
+        scil_image_math.py multiplication $t1 ${sid}__t1_bet_mask.nii.gz ${sid}__t1_bet.nii.gz
+        
+      ${params.script_registration} -d 3 -m ${sid}__t1_bet.nii.gz -f ${template} -n ${task.cpus} -o "${sid}__output" -t ${params.transfo}
+      mv ${sid}__outputWarped.nii.gz ${sid}__t1_template_space.nii.gz
+    """
+    }
+    else{
     """
       ${params.script_registration} -d 3 -m ${anat} -f ${template} -n ${task.cpus} -o "${sid}__output" -t ${params.transfo}
+      mv ${sid}__outputWarped.nii.gz ${sid}__t1_template_space.nii.gz
     """
-}
-
-process Get_T1_Template_Space{
-    cpus 1
-    publishDir = params.outdir_t1
-
-    input:
-    set sid, file(t1_warped) from t1_to_template
-
-    output:
-    file "${sid}__t1_to_template.nii.gz"
-
-    script:
-    """
-      mv ${t1_warped} ${sid}__t1_to_template.nii.gz
-    """
+    }
 }
 
 Channel.empty()
