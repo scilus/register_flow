@@ -2,6 +2,7 @@ register_flow pipeline
 =====================
 
 Register t1, metrics and tractograms to template space.
+If a metric name includes *mask*, it will be registered with the nearest-neighbour option.
 We suggest to use https://github.com/scilus/combine_flows to create input.
 
 USAGE
