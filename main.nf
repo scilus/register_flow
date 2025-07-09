@@ -2,7 +2,6 @@
 
 params.input = false
 params.template = false
-trk_remove_invalid = false
 
 if(params.help) {
     usage = file("$baseDir/USAGE")
