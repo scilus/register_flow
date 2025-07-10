@@ -2,6 +2,7 @@ register_flow pipeline
 =====================
 
 Register t1, metrics and tractograms to template space.
+If a metric name includes *mask*, it will be registered with the nearest-neighbour option.
 We suggest to use https://github.com/scilus/combine_flows to create input.
 
 USAGE
@@ -25,16 +26,15 @@ DESCRIPTION
                                                 It has to be named template_t1.nii.gz
 
 OPTIONAL ARGUMENTS (current value)
+    --run_bet                                   Run bet(antsBrainExtraction) if your t1s are not brain extracted ($run_bet).
     --linear_registration                       If set, it will use linear registration instead of non linear registration ($linear_registration).
 
     --quick_registration                        If set, it will use antsRegistrationSyNQuick.sh instead of antsRegistrationSyN.sh for registration ($quick_registration).
 
-    --output_dir                                Specify a new output directory to avoid overwriting results (when dealing with multiple input labels) ($output_dir).
-
-    --processes_register                        Number of processes for registration task ($processes_register).
-
-    --processes                                 The number of parallel processes to launch ($cpu_count).
-                                                Only affects the local scheduler.
+TRK OPTIONS (current value)
+    --trk_keep_invalid                          If set, it will keep invalid streamlines after registration ($trk_keep_invalid).
+    --trk_cut_invalid                           If set, it will cut invalid points and may create sub-streamlines after registration ($trk_cut_invalid).
+    --trk_remove_invalid                        If set, it will remove invalid streamlines after registration ($trk_remove_invalid).
 
 AVAILABLE PROFILES (using -profile option (e.g. -profile fully_reproducible))
 
